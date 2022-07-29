@@ -4,12 +4,12 @@ const jwt = require('jsonwebtoken')
 // 导入全局的配置文件
 const config = require('../config')
 // 导入校验规则
-const {loginSchema} = require('../schema/user')
+const {loginSchema, registerSchema} = require('../schema/user')
 
 // 注册
 exports.register = (req, res) => {
   // console.log(req.body)
-  const {error} = loginSchema.validate(req.body)
+  const {error} = registerSchema.validate(req.body)
   if(error) {
     return res.sendResult(error)
   }
@@ -32,6 +32,7 @@ exports.register = (req, res) => {
 
 // 登录
 exports.login = (req, res) => {
+  console.log(req.body)
   const {username, password} = req.body
   const {error} = loginSchema.validate(req.body)
   if(error) {
@@ -48,7 +49,9 @@ exports.login = (req, res) => {
       res.send({
         status: 200,
         message: '登录成功！',
-        token: 'Bearer ' + token
+        data: {
+          token: 'Bearer ' + token
+        }
       })
     }
   })
