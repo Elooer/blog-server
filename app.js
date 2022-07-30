@@ -29,7 +29,7 @@ const {expressjwt} = require('express-jwt')
 const config = require('./config')
 
 // 除了以user开头的接口都需要token
-app.use(expressjwt({ secret: config.jwtSecretKey, algorithms: ['HS256'] }).unless({ path: [/^\/user/] }))
+app.use('/message',expressjwt({ secret: config.jwtSecretKey, algorithms: ['HS256'] }))
 
 // 用户路由模块
 const userRouter = require('./router/user')
@@ -38,6 +38,10 @@ app.use('/user', userRouter)
 // 用户信息路由模块
 const userInfoRouter = require('./router/userinfo')
 app.use('/my', userInfoRouter)
+
+// 文章路由模块
+const articleRouter = require('./router/article')
+app.use('/article', articleRouter)
 
 app.listen(3006, () => {
   console.log('app server running at http://127.0.0.1:3006')
