@@ -36,6 +36,9 @@ exports.getArticleList = (req, res) => {
 exports.getArticleById = (req, res) => {
   const {_id} = req.body
   Article.findById(_id).then(data => {
+    Article.updateOne({_id: _id}, {$inc: {count: 1}}, (err, data1) => {
+      if(err) res.sendResult(err)
+    })
     res.send({
       status: 200,
       message: '获取文章信息成功！',
@@ -43,3 +46,38 @@ exports.getArticleById = (req, res) => {
     })
   }).catch(err => res.sendResult(err))
 }
+
+// 分页信息
+exports.getPageInfo = (req, res) => {
+  const {page} = req.body
+  Article.find({}).count().then(data => {
+    if(data) {
+      res.send({
+        status: 200,
+        message: '获取分页信息成功！',
+        data: {
+          current: page,
+          total: data
+        }
+      })
+    }
+  })
+}
+
+function elMessage() {
+  success = function() {
+    console.log('success')
+  }
+
+  this.linli = function() {
+    // elMessage({type: 'error', message: ''})
+    console.log('linli')
+  }
+}
+
+let b = {
+  success: function() {
+  }
+}
+elMessage() // window
+let a = new elMessage()

@@ -21,6 +21,10 @@ let articleSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  count: {
+    type: Number,
+    default: 0
+  },
   img: {
     type: String,
     default: 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg'
