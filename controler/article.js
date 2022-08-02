@@ -64,20 +64,42 @@ exports.getPageInfo = (req, res) => {
   })
 }
 
-function elMessage() {
-  success = function() {
-    console.log('success')
-  }
-
-  this.linli = function() {
-    // elMessage({type: 'error', message: ''})
-    console.log('linli')
-  }
+// 归档
+exports.getRecord = (req, res) => {
+  Article.aggregate([
+    {
+      $match: {
+        'state': true
+      }
+    },
+    {
+      $project:{
+        year: {$substr: [{"$add":["$pubTime", 28800000]}, 0, 4]},
+        date: {$substr: [{"$add":["$pubTime", 28800000]}, 5, 5]},
+        'title': 1,
+        '_id': 1
+      },
+   },
+    {
+      $group: {
+        _id: '$year',
+        list: {$push: {_id: '$_id', title: '$title', date: '$date'}}
+      }
+    },
+    {
+      $sort: {_id: -1}//根据date排序
+   }
+  ]).then(data => {
+    Article.distinct('tag').then(data2 => {
+      res.send({
+        status: 200,
+        message: '获取归档信息成功!',
+        data: {
+          list: data,
+          tag: data2
+      }
+      })
+    }).catch(err1 => res.sendResult(err1))
+    
+  }).catch(err => res.sendResult(err))
 }
-
-let b = {
-  success: function() {
-  }
-}
-elMessage() // window
-let a = new elMessage()
