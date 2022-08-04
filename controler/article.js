@@ -50,7 +50,7 @@ exports.getArticleById = (req, res) => {
 // 分页信息
 exports.getPageInfo = (req, res) => {
   const {page} = req.body
-  Article.find({}).count().then(data => {
+  Article.find({state: true}).count().then(data => {
     if(data) {
       res.send({
         status: 200,
@@ -90,7 +90,16 @@ exports.getRecord = (req, res) => {
       $sort: {_id: -1}//根据date排序
    }
   ]).then(data => {
-    Article.distinct('tag').then(data2 => {
+    Article.aggregate([{
+      $match: {
+        'state': true
+      }},{
+        $group: {
+          _id: '$tag',
+          count: {$sum: 1}
+        }
+      },
+    ]).then(data2 => {
       res.send({
         status: 200,
         message: '获取归档信息成功!',
