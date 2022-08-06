@@ -1,6 +1,6 @@
 const mongoose = require('../db')
 
-let articleSchema = new mongoose.Schema({
+const articleSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true
@@ -15,7 +15,7 @@ let articleSchema = new mongoose.Schema({
   },
   pubTime: {
     type: Date,
-    default: new Date
+    default: Date.now
   },
   tag: {
     type: String,

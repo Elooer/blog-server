@@ -15,7 +15,7 @@ let userSchema = new mongoose.Schema({
   },
   createdTime: {
     type: Date,
-    default: new Date
+    default: Date.now
   },
   status: {
     type: Number,

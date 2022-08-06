@@ -3,7 +3,6 @@ const {addArticleSchema} = require('../schema/article')
 
 // 新增文章
 exports.addArticle = (req, res) => {
-  console.log(req.body)
   const {error} = addArticleSchema.validate(req.body)
   const {title, describe, content, tag} = req.body
   if(error) {

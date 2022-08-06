@@ -1,9 +1,9 @@
 const mongoose = require('../db')
 
-const messageSchema = new mongoose.Schema({
+const responseSchema = new mongoose.Schema({
   pubTime: {
     type: Date,
-    default: new Date
+    default: Date.now
   },
   username: {
     type: String,
@@ -17,6 +17,26 @@ const messageSchema = new mongoose.Schema({
     type: String,
     required: true
   }
+})
+
+const messageSchema = new mongoose.Schema({
+  pubTime: {
+    type: Date,
+    default: Date.now
+  },
+  username: {
+    type: String,
+    default: '游客'
+  },
+  avatar: {
+    type: String,
+    default: 'https://img.ifuntools.cn/images/1610033839514.png'
+  },
+  comments: {
+    type: String,
+    required: true
+  },
+  response: [responseSchema]
 })
 
 module.exports = Message = mongoose.model('messages', messageSchema)
