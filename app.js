@@ -28,7 +28,7 @@ app.use((req, res, next) => {
 const {expressjwt} = require('express-jwt')
 const config = require('./config')
 
-// 除了以user开头的接口都需要token
+// 配置token路由
 app.use('/other',expressjwt({ secret: config.jwtSecretKey, algorithms: ['HS256'] }))
 
 // 用户路由模块

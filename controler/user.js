@@ -45,7 +45,7 @@ exports.login = (req, res) => {
       res.sendResult('用户名或密码错误')
     } else {
       // 对用户的信息进行加密，生成 token 字符串
-      const token = jwt.sign({username, _id: data._id}, config.jwtSecretKey, { expiresIn: config.expiresIn })
+      const token = jwt.sign({username, _id: data._id, role: data.role}, config.jwtSecretKey, { expiresIn: config.expiresIn })
       res.send({
         status: 200,
         message: '登录成功！',
