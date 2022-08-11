@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const {addArticle, getArticleList, getArticleById, getPageInfo, getRecord} = require('../controler/article')
+const {addArticle, getArticleList, getArticleById, getPageInfo, getRecord, updateArticle} = require('../controler/article')
 
 // 添加文章
 router.post('/addArticle', addArticle)
@@ -12,5 +12,7 @@ router.post('/getArticleById', getArticleById)
 router.post('/getPageInfo', getPageInfo)
 // 归档
 router.get('/getRecord', getRecord)
+// 更新文章
+router.post('/updateArticle', updateArticle)
 
 module.exports = router
