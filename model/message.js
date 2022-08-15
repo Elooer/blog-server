@@ -36,6 +36,12 @@ const messageSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  ip: {
+    type: String
+  },
+  location: {
+    type: String
+  },
   response: [responseSchema]
 })
 

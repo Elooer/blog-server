@@ -1,7 +1,8 @@
 const express = require('express')
 const router = express.Router()
-const {getUserList} = require('../controler/userinfo')
+const {getUserList, getUserPageInfo} = require('../controler/userinfo')
 
-router.get('/userList', getUserList)
+router.post('/getUserList', getUserList)
+router.post('/getUserPageInfo', getUserPageInfo)
 
 module.exports = router

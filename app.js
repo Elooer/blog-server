@@ -15,21 +15,31 @@ app.use(express.json())
 app.use((req, res, next) => {
   // status 默认值为400，表示失败的情况
   // err 的值，可能是一个错误对象，也可能是一个错误的描述字符串
-  res.sendResult = function(err, status = 400) {
-      res.send({
-          status,
-          message: err instanceof Error ? err.message : err
-      })
+  res.sendResult = function (err, status = 400) {
+    res.send({
+      status,
+      message: err instanceof Error ? err.message : err
+    })
   }
   next()
 })
 
 // 要在路由之前配置解析 token 的中间件
-const {expressjwt} = require('express-jwt')
+const { expressjwt } = require('express-jwt')
 const config = require('./config')
 
 // 配置token路由
-app.use('/other',expressjwt({ secret: config.jwtSecretKey, algorithms: ['HS256'] }))
+app.use(expressjwt({ secret: config.jwtSecretKey, algorithms: ['HS256'] }).unless({
+  path: ['/user', '/article/getArticleList',
+    '/article/getArticleById',
+    '/article/getArticleByTag',
+    '/article/getPageInfo',
+    '/article/getRecord',
+    '/message/addComment',
+    '/message/getCommentList',
+    '/message/getMessagePageInfo',
+    '/message/addResponse']
+}))
 
 // 用户路由模块
 const userRouter = require('./router/user')
@@ -37,7 +47,7 @@ app.use('/user', userRouter)
 
 // 用户信息路由模块
 const userInfoRouter = require('./router/userinfo')
-app.use('/my', userInfoRouter)
+app.use('/userinfo', userInfoRouter)
 
 // 文章路由模块
 const articleRouter = require('./router/article')
