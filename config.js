@@ -4,5 +4,5 @@ module.exports = {
   // 加密和解密 token 的密钥
   jwtSecretKey: 'Elooer to be best ***',
   // token 的有效期
-  expiresIn: '240h'
+  expiresIn: '7 days'
 }

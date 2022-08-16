@@ -11,18 +11,9 @@ app.use(cors())
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 
-// 在路由之前，封装 res.sendResult 函数
-app.use((req, res, next) => {
-  // status 默认值为400，表示失败的情况
-  // err 的值，可能是一个错误对象，也可能是一个错误的描述字符串
-  res.sendResult = function (err, status = 400) {
-    res.send({
-      status,
-      message: err instanceof Error ? err.message : err
-    })
-  }
-  next()
-})
+// 在路由之前，注册res.sendResult 函数
+const sendResult = require('./utils/sendResult')
+app.use(sendResult)
 
 // 要在路由之前配置解析 token 的中间件
 const { expressjwt } = require('express-jwt')
@@ -30,7 +21,7 @@ const config = require('./config')
 
 // 配置token路由
 app.use(expressjwt({ secret: config.jwtSecretKey, algorithms: ['HS256'] }).unless({
-  path: ['/user', '/article/getArticleList',
+  path: ['/user/login', '/user/register', '/article/getArticleList',
     '/article/getArticleById',
     '/article/getArticleByTag',
     '/article/getPageInfo',
@@ -56,6 +47,7 @@ app.use('/article', articleRouter)
 // 留言模块
 const messageRouter = require('./router/message')
 app.use('/message', messageRouter)
+
 
 app.listen(3006, () => {
   console.log('app server running at http://127.0.0.1:3006')

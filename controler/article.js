@@ -72,7 +72,6 @@ exports.updateArticle = (req, res) => {
   console.log(updateObj)
   Article.updateOne({ _id }, updateObj).then(data => {
     if (data.acknowledged) {
-      console.log('data', data)
       res.send({
         status: 200,
         message: '更新文章成功！',
