@@ -11,7 +11,7 @@ exports.addComment = async (req, res) => {
   if (data.code !== 200) {
     location = '未获取'
   } else {
-    location = location + data.province + data.city + ' ' + data.isp
+    location = '' + data.province + data.city + ' ' + data.isp
   }
 
   console.log('loc:', location)
@@ -55,7 +55,7 @@ exports.getCommentList = (req, res) => {
       }
     })
   }
-  Message.find({}).sort({ '_id': '-1' }).limit(10 * count).then(data => {
+  Message.find({}, { ip: 0, location: 0 }).sort({ '_id': '-1' }).limit(10 * count).then(data => {
     if (data) {
       Message.count().then(total => {
         res.send({

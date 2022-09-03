@@ -49,6 +49,6 @@ const messageRouter = require('./router/message')
 app.use('/message', messageRouter)
 
 
-app.listen(3006, () => {
-  console.log('app server running at http://127.0.0.1:3006')
+app.listen(5000, () => {
+  console.log('app server running at http://127.0.0.1:5000')
 })

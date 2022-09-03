@@ -4,5 +4,10 @@ module.exports = {
   // 加密和解密 token 的密钥
   jwtSecretKey: 'Elooer to be best ***',
   // token 的有效期
-  expiresIn: '7 days'
+  expiresIn: '7 days',
+  host: '127.0.0.0',
+  port: '27017',
+  user: 'Elooer',
+  pwd: 'tobebetter',
+  database: 'blog',
 }
