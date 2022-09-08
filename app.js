@@ -1,6 +1,8 @@
 const express = require('express')
 require('./db')
 const app = express()
+const https = require('https')
+const fs = require('fs')
 
 // 导入并配置 cors 中间件
 const cors = require('cors')
@@ -21,7 +23,7 @@ const config = require('./config')
 
 // 配置token路由
 app.use(expressjwt({ secret: config.jwtSecretKey, algorithms: ['HS256'] }).unless({
-  path: ['/user/login', '/user/register', '/article/getArticleList',
+  path: ['/test', '/user/login', '/user/register', '/article/getArticleList',
     '/article/getArticleById',
     '/article/getArticleByTag',
     '/article/getPageInfo',
@@ -48,7 +50,19 @@ app.use('/article', articleRouter)
 const messageRouter = require('./router/message')
 app.use('/message', messageRouter)
 
+app.use('/test', (req, res) => {
+  res.json({
+    msg: '测试成功！'
+  })
+})
 
-app.listen(5000, () => {
-  console.log('app server running at http://127.0.0.1:5000')
+const httpsOption = {
+  key: fs.readFileSync("./https/elooerblog.top.key"),
+  cert: fs.readFileSync("./https/elooerblog.top_bundle.pem")
+}
+
+const server = https.createServer(httpsOption, app)
+
+server.listen(5000, () => {
+  console.log('app server running at https://127.0.0.1:5000')
 })
